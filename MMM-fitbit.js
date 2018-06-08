@@ -84,7 +84,7 @@ Module.register('MMM-fitbit',{
 		var self = this;
 		setInterval(function() {
 			self.updateData();
-		}, this.config.update_interval*60*100);
+		}, this.config.update_interval*60*1000);
 		console.log("Start websocket");
 	},
 	
@@ -138,7 +138,7 @@ Module.register('MMM-fitbit',{
 		// Text to display
 		userData.className = 'normal medium';
 		suffix.className = "dimmed small"
-		
+
 		if (resource == 'steps' || resource == 'caloriesOut') {
 			userData.innerHTML = this.numberWithCommas(this.userData[resource]);
 		} else if (resource == 'sleep') {
