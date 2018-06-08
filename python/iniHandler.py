@@ -23,7 +23,11 @@ def print_json(type, message, value=""):
 	sys.stdout.flush()
 
 def print_data(resource, data, goal):
-	print(json.dumps({'type': 'data', 'resource': resource, 'values': {'data': data, 'goal': goal}}))
+	print(json.dumps({
+		'type': 'data',
+		'resource': resource, 
+		'values': {'data': data, 'goal': goal}
+		}))
 	sys.stdout.flush()
 
 def fileExists(path,file):

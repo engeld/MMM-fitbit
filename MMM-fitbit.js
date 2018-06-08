@@ -16,6 +16,7 @@ Module.register('MMM-fitbit',{
 		distance: 0,
 		activeMinutes: 0,
 		sleep: 0,
+		weight: 0,
 		heart: 0
 	},
 	
@@ -26,6 +27,7 @@ Module.register('MMM-fitbit',{
 		distance: 5,
 		activeMinutes: 30,
 		sleep: 480,
+		weight: 0,
 		heart: 0
 	},
 	
@@ -42,6 +44,7 @@ Module.register('MMM-fitbit',{
 			'distance',
 			'activeMinutes',
 			'sleep',
+			'weight',
 			'heart'
 		],
 		update_interval: 60
@@ -56,6 +59,7 @@ Module.register('MMM-fitbit',{
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "DATA"){
 			resource = payload['resource'];
+
 			if (this.inResources(resource)) {
 				this.userData[resource] = payload['values']['data'];
 				this.goals[resource] = payload['values']['goal'];
@@ -80,7 +84,8 @@ Module.register('MMM-fitbit',{
 		var self = this;
 		setInterval(function() {
 			self.updateData();
-		}, this.config.update_interval*60*1000);
+		}, this.config.update_interval*60*100);
+		console.log("Start websocket");
 	},
 	
 	// Updates the data from fitbit
@@ -133,13 +138,16 @@ Module.register('MMM-fitbit',{
 		// Text to display
 		userData.className = 'normal medium';
 		suffix.className = "dimmed small"
+		
 		if (resource == 'steps' || resource == 'caloriesOut') {
 			userData.innerHTML = this.numberWithCommas(this.userData[resource]);
 		} else if (resource == 'sleep') {
 			userData.innerHTML = this.minsToHourMin(this.userData[resource]);
+			console.log(this.userData);
 		} else {
 			userData.innerHTML = this.userData[resource];
 		};
+
 		switch(resource) {
 			case 'distance':
 				suffix.innerHTML = 'mi';
